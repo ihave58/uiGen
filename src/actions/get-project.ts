@@ -1,32 +1,32 @@
-"use server";
+'use server';
 
-import { getSession } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getSession } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
 export async function getProject(projectId: string) {
-  const session = await getSession();
-  
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
+    const session = await getSession();
 
-  const project = await prisma.project.findUnique({
-    where: {
-      id: projectId,
-      userId: session.userId,
-    },
-  });
+    if (!session) {
+        throw new Error('Unauthorized');
+    }
 
-  if (!project) {
-    throw new Error("Project not found");
-  }
+    const project = await prisma.project.findUnique({
+        where: {
+            id: projectId,
+            userId: session.userId,
+        },
+    });
 
-  return {
-    id: project.id,
-    name: project.name,
-    messages: JSON.parse(project.messages),
-    data: JSON.parse(project.data),
-    createdAt: project.createdAt,
-    updatedAt: project.updatedAt,
-  };
+    if (!project) {
+        throw new Error('Project not found');
+    }
+
+    return {
+        id: project.id,
+        name: project.name,
+        messages: JSON.parse(project.messages),
+        data: JSON.parse(project.data),
+        createdAt: project.createdAt,
+        updatedAt: project.updatedAt,
+    };
 }
