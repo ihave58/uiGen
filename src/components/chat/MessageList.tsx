@@ -10,7 +10,7 @@ interface MessageListProps {
     isLoading?: boolean;
 }
 
-function formatToolInvocation(tool: any): string {
+export function formatToolInvocation(tool: any): string {
     const filename = tool.args?.path?.split('/').pop() || 'file';
 
     if (tool.toolName === 'str_replace_editor') {

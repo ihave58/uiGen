@@ -1,6 +1,6 @@
 import { afterEach, expect, test, vi } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
-import { MessageList } from '../MessageList';
+import { MessageList, formatToolInvocation } from '../MessageList';
 import type { Message } from 'ai';
 
 // Mock the MarkdownRenderer component
@@ -77,8 +77,15 @@ test('MessageList renders messages with parts', () => {
 
     render(<MessageList messages={messages}/>);
 
+    const toolInvocation = {
+        toolCallId: 'asdf',
+        args: {},
+        toolName: 'str_replace_editor',
+        state: 'result',
+        result: 'Success',
+    };
     expect(screen.getByText('Creating your component...')).toBeDefined();
-    expect(screen.getByText('str_replace_editor')).toBeDefined();
+    expect(screen.getByText(formatToolInvocation(toolInvocation))).toBeDefined();
 });
 
 test('MessageList shows content for assistant message with content', () => {
